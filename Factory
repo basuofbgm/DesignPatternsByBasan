@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DesignPatterns
+{
+    public interface IProduct
+    {
+        void Device(int price);
+    }
+    public class Apple:IProduct
+    {
+        public void Device(int price)
+        {
+            Console.WriteLine("Apple IPhone X Price:$ "  + price.ToString());
+        }
+    }
+    public class Samsung:IProduct
+    {
+        public void Device(int price)
+        {
+            Console.WriteLine("Samsung Galaxy S9 Price:$ " + price.ToString());
+        }
+    }
+
+    public abstract class ProductFactory
+    {
+        public abstract IProduct GetProduct(string Vehicle);
+    }
+    /// <summary>
+    /// A 'ConcreteCreator' class
+    /// </summary>
+    public class ConcreteProductFactory : ProductFactory
+    {
+        public override IProduct GetProduct(string Device)
+        {
+            switch (Device)
+            {
+                case "Apple": return new Apple();
+                case "Samsung": return new Samsung();
+                default: throw new ApplicationException(string.Format("Device '{0}' cannot be created", Device));       
+            }
+        }
+    }
+    /// <summary>
+    /// Factory pattern Demo
+    /// </summary>
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ProductFactory factory = new ConcreteProductFactory();
+            IProduct apple = factory.GetProduct("Apple");
+            apple.Device(1000);
+
+            IProduct samsung = factory.GetProduct("Samsung");
+            samsung.Device(900);
+            Console.ReadKey();
+        }
+    }
+}
