@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DesignPatterns
+{
+    public interface AbstractFactories
+    {
+        AbstractProductA CreateProductA();
+        AbstractProductB CreateProductB();
+    }
+    public class ConcreteFactoryA : AbstractFactories
+    {
+        public AbstractProductA CreateProductA()
+        {
+            return new ProoductA2;
+
+        }
+        public AbstractProductB CreateProductB()
+        {
+            return new ProoductB2;
+        }
+    }
+    public interface AbstractProductA { }
+    public class ProoductA1 : AbstractProductA { }
+    public class ProoductA2 : AbstractProductA { }
+
+    public interface AbstractProductB { }
+    public class ProoductB1 : AbstractProductB { }
+    public class ProoductB2 : AbstractProductB { }
+
+    public class AbstractFactoryclient
+    {
+        private AbstractProductA _productA;
+        private AbstractProductB _productB;
+
+        public AbstractFactoryclient(AbstractFactories factory)
+        {
+            _productA = factory.CreateProductA();
+            _productB = factory.CreateProductB();
+        }
+    }
+}
