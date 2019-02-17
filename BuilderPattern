@@ -1,0 +1,166 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DesignPatterns
+
+{
+    public interface IMobileBuilder
+    {
+        void SetMake();
+        void SetModel();
+        void SetOS();
+        void SetColour();
+        void SetCapacity();
+        void SetAccessory();
+        Device GetDevice();
+    }
+    public class AppleBuilder : IMobileBuilder
+    {
+        Device objDevice = new Device();
+        public void SetMake()
+        {
+            objDevice.Make = "Apple";
+        }
+        public void SetModel()
+        {
+            objDevice.Model = "IPhone X Max";
+        }
+        public void SetOS()
+        {
+            objDevice.OS = "IOS 12";
+        }
+        public void SetColour()
+        {
+            objDevice.Colour = "Black";
+        }
+        public void SetCapacity()
+        {
+            objDevice.Capacity = "256GB";
+        }
+        public void SetAccessory()
+        {
+            objDevice.Accessories.Add("12 MPX Camera");
+            objDevice.Accessories.Add("Water prof");
+            objDevice.Accessories.Add("8 MPX Front Camera ");
+            objDevice.Accessories.Add("IOS 12 Bionic Chip");
+            objDevice.Accessories.Add("Processing Speed");
+        }
+        public Device GetDevice()
+        {
+            return objDevice;
+        }
+    }
+
+    public class AndriodBuilder : IMobileBuilder
+    {
+        Device objDevice = new Device();
+        public void SetMake()
+        {
+            objDevice.Make = "Samsung";
+        }
+        public void SetModel()
+        {
+            objDevice.Model = "Galaxy S9";
+        }
+        public void SetOS()
+        {
+            objDevice.OS = "Andriod OS";
+        }
+        public void SetColour()
+        {
+            objDevice.Colour = "Black";
+        }
+        public void SetCapacity()
+        {
+            objDevice.Capacity = "256GB";
+        }
+        public void SetAccessory()
+        {
+            objDevice.Accessories.Add("12 MPX Camera");
+            objDevice.Accessories.Add("Water prof");
+            objDevice.Accessories.Add("8 MPX Front Camera ");
+            objDevice.Accessories.Add("2.4 GHZ processor");
+            objDevice.Accessories.Add("16 GB RAM");
+        }
+        public Device GetDevice()
+        {
+            return objDevice;
+        }
+    }
+    public class Device
+    {
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public string OS { get; set; }
+        public string Colour { get; set; }
+        public string Capacity { get; set; }
+        public List<string> Accessories { get; set; }
+        public Device()
+        {
+            Accessories = new List<string>();
+        }
+        public void ShowInfo()
+        {
+            Console.WriteLine("Make : {0}",Make);
+            Console.WriteLine("Model: {0}",Model);
+            Console.WriteLine("OS : {0}",OS);
+            Console.WriteLine("Colour : {0}",Colour) ;
+            Console.WriteLine("Capacity : {0}",Capacity);
+            Console.WriteLine("--------------Accessories---------------------");
+            foreach (var item in Accessories)
+            {
+                Console.WriteLine("\t{0}",item);
+            }
+        }
+    }
+
+  
+   
+   /// <summary>
+   /// The Director Class
+   /// </summary>
+   public class BuilderClient
+    {
+       readonly IMobileBuilder ObjBuilder;
+        public BuilderClient(IMobileBuilder builder)
+        {
+            ObjBuilder = builder;
+        }      
+        public  void CreateDevice()
+        {
+            ObjBuilder.SetMake();
+            ObjBuilder.SetModel();
+            ObjBuilder.SetOS();
+            ObjBuilder.SetColour();
+            ObjBuilder.SetCapacity();
+            ObjBuilder.SetAccessory();
+
+        }
+        public Device GetDevice()
+        {
+            return ObjBuilder.GetDevice();
+        }
+    }
+}
+
+ class Program
+    {
+        static void Main(string[] args)
+        {
+            var DeviceBuilder = new BuilderClient(new AppleBuilder());
+            DeviceBuilder.CreateDevice();
+            var device = DeviceBuilder.GetDevice();
+            device.ShowInfo();
+
+            Console.WriteLine("--------------");
+
+            DeviceBuilder = new BuilderClient(new AndriodBuilder());
+            DeviceBuilder.CreateDevice();
+            device = DeviceBuilder.GetDevice();
+            device.ShowInfo();
+            Console.ReadKey();
+        }
+    }
