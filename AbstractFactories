@@ -43,3 +43,167 @@ namespace DesignPatterns
         }
     }
 }
+
+//Example
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DesignPatterns
+{
+     interface VehicleFactories
+    {
+        Bike GetBike(string Bike);
+        Scooter GetScooter(string Scooter);
+    }
+    class HondaFactory : VehicleFactories
+    {
+        public Bike GetBike(string Bike)
+        {
+            switch (Bike)
+            {
+                case "Sports":
+                    return new SportsBike();
+                case "Regular":
+                    return new RegularBike();
+                default:
+                    throw new ApplicationException(string.Format("Vehicle '{0}' can not be created ", Bike));
+            }           
+
+        }
+        public Scooter GetScooter(string Scooter)
+        {
+            switch (Scooter)
+            {
+                case "Sports":
+                    return new Scooty();
+                case "Regular":
+                    return new RegularScooter();
+                default:
+                    throw new ApplicationException(string.Format("Vehicle '{0}' can not be created ", Scooter));
+            }
+
+        }
+    }
+
+     class HeroFactory : VehicleFactories
+    {
+        public Bike GetBike(string Bike)
+        {
+            switch (Bike)
+            {
+                case "Sports":
+                    return new SportsBike();
+                case "Regular":
+                    return new RegularBike();
+                default:
+                    throw new ApplicationException(string.Format("Vehicle '{0}' can not be created ", Bike));
+            }
+
+        }
+        public Scooter GetScooter(string Scooter)
+        {
+            switch (Scooter)
+            {
+                case "Sports":
+                    return new Scooty();
+                case "Regular":
+                    return new RegularScooter();
+                default:
+                    throw new ApplicationException(string.Format("Vehicle '{0}' can not be created ", Scooter));
+            }
+
+        }
+    }
+     interface Bike {
+        string Name();
+    }
+    interface Scooter
+    {
+        string Name();
+
+    }
+    class RegularBike :Bike
+    {
+        public string Name()
+        {
+            return " Sports Bike - Name";
+        }
+    }
+    class SportsBike : Bike
+    {
+        public string Name()
+        {
+            return "Sports Bike - Name";
+        }
+
+    }
+
+    class RegularScooter : Scooter
+    {
+        public string Name()
+        {
+            return "Regular Scooter - name";
+        }
+    }
+    class Scooty : Scooter
+    {
+        public  string Name()
+        {
+            return "Scooty - Name ";
+        }
+    }
+
+
+     class AbstractFactoryclient
+    {
+        Bike bike;
+        Scooter scooter;
+         
+        public AbstractFactoryclient(VehicleFactories factory, string type)
+        {
+            bike = factory.GetBike(type);
+            scooter = factory.GetScooter(type);
+
+        }
+
+        public string GetBikeName()
+        {
+            return bike.Name();
+        }
+        public string GetScooterName()
+        {
+            return scooter.Name();
+        }
+    }
+}
+
+class Program
+    {
+        static void Main(string[] args)
+        {
+            VehicleFactories honda = new HondaFactory();
+            AbstractFactoryclient hondaclient = new AbstractFactoryclient(honda, "Regular");
+            Console.WriteLine("*******************Honda***************");
+            Console.WriteLine(hondaclient.GetBikeName());
+            Console.WriteLine(hondaclient.GetScooterName());
+
+            hondaclient = new AbstractFactoryclient(honda, "Sports");
+            Console.WriteLine(hondaclient.GetBikeName());
+            Console.WriteLine(hondaclient.GetScooterName());
+
+            VehicleFactories hero = new HeroFactory();
+            AbstractFactoryclient heroclient = new AbstractFactoryclient(hero, "Regular");
+            Console.WriteLine("*************Hero***************");
+            Console.WriteLine(heroclient.GetBikeName());
+            Console.WriteLine(heroclient.GetScooterName());
+
+            heroclient = new AbstractFactoryclient(hero, "Sports");
+            Console.WriteLine(heroclient.GetBikeName());
+            Console.WriteLine(heroclient.GetScooterName());
+            Console.ReadKey();
+        }
+    }
